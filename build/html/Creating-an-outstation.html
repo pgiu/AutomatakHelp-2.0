@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>); &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>An outstation is a component that communicates with one or more masters via a communication channel. It makes <em>__measurements__</em> of the physical world and then sends them to a master upon request (solicited) or on its own accord (unsolicited). Occasionally a master requests that it do something by sending it a <em>__control__</em>.  Just like a master, an outstation can be attached to any communication channel that OpenDNP3 supports.</p>
+<p>To add an outstation to a communication channel you call the _AddOutstation_ method on the channel interface:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
+SlaveStackConfig stackConfig;</p>
+<dl class="docutils">
+<dt>IOutstation* pOutstation = pChannel-&gt;AddOutstation(</dt>
+<dd>&#8220;outstation&#8221;,                  // stack name
+LEV_INFO,                      // log filter level
+SuccessCommandHandler::Inst(), // see below
+stackConfig                    // stack configuration</dd>
+</dl>
+<div class="section" id="id5">
+<h1>);<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<p>Just the same as when we created a channel, we provide a string ID for the logger and a log level. The SlaveStackConfig class provides the outstation with all of its configuration. It tells the outstation how to behave, how to respond to requests, and what features to enable or disable. A description of what each parameter does is provided in the code documentation for the class. The method returns an interface that represents the outstation. It contains sub-interfaces for doing things like loading measurements.</p>
+<p>By now you&#8217;ve probably noticed that I haven&#8217;t described what the _SuccessCommandHandler::Inst()_ call is all about. This parameter is the call back interface that the application must provide to handle control requests from a master. The singleton above simply silently acknowledges all requests. The instance provided by your application will do something more interesting by implementing the <strong>_ICommandHandler_</strong> interface. If you are unfamiliar with control types and modes of operation you should read [[this | Control types and modes]].</p>
+<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>java
+// Java
+public interface CommandHandler {</p>
+<blockquote>
+<div><p>CommandStatus select(ControlRelayOutputBlock command, long index);
+CommandStatus select(AnalogOutputInt32 command, long index);</p>
+<p>// .. more signatures follow</p>
+</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h1>}<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h1>
+<p>The interface has a method signature for each mode of operation and control type pair. This allows you to individually decide how and what to support in your outstation. It may seem like a lot of work, but just remember that the 4 AnalogOutput types all refer to the <strong>same output</strong>, just with a different variation from the master.</p>
+<p>### How to handle SELECT
+You may have noticed the <strong>_select_</strong> signatures.  The outstation stack needs to know what indices you will handle if a valid Select-before-Operate (SBO) sequence occurs when it receives the SELECT request. You shouldn&#8217;t perform the control in this callback, just do all the validation you would normally do before. If you would handle the control on that index if the function code was an Operate, then return SUCCESS. In rare cases, some outstations might prepare to do a control, i.e. if something needs to be warmed up just in case a valid operate follows the select.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">);</a></li>
+<li><a class="reference internal" href="#id10">}</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Creating-an-outstation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

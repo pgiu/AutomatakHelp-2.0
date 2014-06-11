@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Many implementations of the protocol use a process (aka thread) per communication channel when connecting a master to many outstations. This type of architecture doesn&#8217;t scale well. OpenDNP3 borrows a design pattern from modern web servers: a purely <strong>_asynchronous_</strong> programming model driven by a <strong>_thread pool_</strong>.</p>
+<p>One way to understand why this is so important is to consider how your computer does work concurrently. You can only truly do as many things concurrently as you have <strong>_threads_</strong> or <strong>_cores_</strong>. Your operating system must then fake concurrency for the extra threads by multi-tasking using interrupts to force switches between them. Many active threads leads to an excess of [context switching](<a class="reference external" href="http://en.wikipedia.org/wiki/Context_switch">http://en.wikipedia.org/wiki/Context_switch</a>) and memory usage. A more efficient methodology is to only use the number of threads that your system can actually run concurrently, aka a thread pool sized to the native concurrency of your system. The magic trick is then to NEVER BLOCK any of them so that they&#8217;re all always doing useful work as fast as they can. This leads to efficient CPU utilization, lower memory usage, and lower average latency for servicing requests under load.</p>
+<p>[[/images/no-blocking.gif]]</p>
+<p>OpenDNP3 uses 100% non-blocking I/O under the hood. That&#8217;s why it scales so well. Many systems in the industry have a hard time bringing up and maintaining more than a couple hundred socket connections. OpenDNP3 easily scales right up to the operating system limit, all while using a small amount of CPU and RAM.</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Scalable-architecture.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

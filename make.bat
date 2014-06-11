@@ -2,9 +2,10 @@
 
 REM Command file for Sphinx documentation
 
-if "%SPHINXBUILD%" == "" (
+rem if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
-)
+	echo Build undefined
+rem )
 set BUILDDIR=build
 set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% source
 set I18NSPHINXOPTS=%SPHINXOPTS% source
@@ -115,9 +116,9 @@ if "%1" == "qthelp" (
 	echo.
 	echo.Build finished; now you can run "qcollectiongenerator" with the ^
 .qhcp project file in %BUILDDIR%/qthelp, like this:
-	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\AutomatakWiki.qhcp
+	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\AutomatakDNP3Help.qhcp
 	echo.To view the help file:
-	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\AutomatakWiki.ghc
+	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\AutomatakDNP3Help.ghc
 	goto end
 )
 
