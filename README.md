@@ -17,11 +17,7 @@ http://sphinx-doc.org/
 
 To build the documentation you'll need: 
 
-- a working version of Sphinx. You can grab a copy from : 
-
-http://sphinx-doc.org/latest/install.html
-
-Just follow the installation instructions. 
+- a working version of Sphinx. You can grab a copy from :  http://sphinx-doc.org/latest/install.html and follow the installation instructions. 
 	
 - after installing Sphinx just type:
 		
