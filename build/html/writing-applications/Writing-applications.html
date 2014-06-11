@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Writing Applications &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="next" title="Creating a master" href="Creating-a-master.html" />
+    <link rel="prev" title="Compared to Modbus" href="../Compared-to-Modbus.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Compared-to-Modbus.html" title="Compared to Modbus"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="writing-applications">
+<h1>Writing Applications<a class="headerlink" href="#writing-applications" title="Permalink to this headline">¶</a></h1>
+<p>The coding guide in the following sections will introduce the major classes and functions in a series of lessons that build on each other. Code snippets will be provided for all 3 languages and differences will be addressed.</p>
+<p>Content</p>
+<div class="toctree-wrapper compound">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Creating-a-master.html">Creating a master</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html#id5">);</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html#id10">}</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Creating-an-outstation.html">Creating an outstation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html#id5">);</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html#id10">}</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Creating-channels.html">Creating Channels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html">DNP3 Manager and the Thread Pool</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id5">}</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id10">}</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id15">}</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Loading-measurements.html">Loading Measurements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Loading-measurements.html#id5">}</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Making-control-requests.html">Making control requests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Making-control-requests.html#id5">}</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Monitoring-channels.html">Monitoring Channels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id5">};</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id10">});</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id15">});</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Monitoring-communication-health.html">Monitoring Communication health</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id5">};</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id10">});</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id15">});</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Writing Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html">Creating a master</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html">Creating an outstation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-channels.html">Creating Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html">DNP3 Manager and the Thread Pool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Loading-measurements.html">Loading Measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Making-control-requests.html">Making control requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html">Monitoring Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html">Monitoring Communication health</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Compared-to-Modbus.html"
+                        title="previous chapter">Compared to Modbus</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Creating-a-master.html"
+                        title="next chapter">Creating a master</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/writing-applications/Writing-applications.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Compared-to-Modbus.html" title="Compared to Modbus"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

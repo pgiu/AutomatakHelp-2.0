@@ -1,3 +1,5 @@
+Compared to Modbus
+==================
 DNP3 has one major disadvantage vs Modbus. The entire Modbus standard is less than 70 pages and is easy to implement. The IEEE specification for DNP3 is in excess of 1,000 pages. It is hard to implement correctly. However, DNP3 has many advantages over Modbus that make it worth investing in a good implementation:
 
 * Measurement data in dnp3 occurs in **_events_**. This means that an outstation is aware of which measurements a master has received and is able to only report the changes. This drastically reduces the amount of network traffic, especially for larger outstations. If a master ever loses synchronization it can always request the full **_static_** state.
