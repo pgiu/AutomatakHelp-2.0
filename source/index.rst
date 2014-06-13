@@ -36,6 +36,7 @@ Contents:
    Building/*
    Embedded-systems
    Development-Process
+   writing-applications/Writing-applications
    
 
 Call for contributors

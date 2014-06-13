@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Creating Channels" href="Creating-channels.html" />
+    <link rel="prev" title="Creating a master" href="Creating-a-master.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Creating-channels.html" title="Creating Channels"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,33 +57,32 @@
 <h1>Creating an outstation<a class="headerlink" href="#creating-an-outstation" title="Permalink to this headline">¶</a></h1>
 <p>An outstation is a component that communicates with one or more masters via a communication channel. It makes <em>__measurements__</em> of the physical world and then sends them to a master upon request (solicited) or on its own accord (unsolicited). Occasionally a master requests that it do something by sending it a <em>__control__</em>.  Just like a master, an outstation can be attached to any communication channel that OpenDNP3 supports.</p>
 <p>To add an outstation to a communication channel you call the _AddOutstation_ method on the channel interface:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
-SlaveStackConfig stackConfig;</p>
-<dl class="docutils">
-<dt>IOutstation* pOutstation = pChannel-&gt;AddOutstation(</dt>
-<dd>&#8220;outstation&#8221;,                  // stack name
-LEV_INFO,                      // log filter level
-SuccessCommandHandler::Inst(), // see below
-stackConfig                    // stack configuration</dd>
-</dl>
-<div class="section" id="id5">
-<h2>);<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">SlaveStackConfig</span> <span class="n">stackConfig</span><span class="p">;</span>
+
+<span class="n">IOutstation</span><span class="o">*</span> <span class="n">pOutstation</span> <span class="o">=</span> <span class="n">pChannel</span><span class="o">-&gt;</span><span class="n">AddOutstation</span><span class="p">(</span>
+  <span class="s">&quot;outstation&quot;</span><span class="p">,</span>                  <span class="c1">// stack name</span>
+  <span class="n">LEV_INFO</span><span class="p">,</span>                      <span class="c1">// log filter level</span>
+  <span class="n">SuccessCommandHandler</span><span class="o">::</span><span class="n">Inst</span><span class="p">(),</span> <span class="c1">// see below</span>
+  <span class="n">stackConfig</span>                    <span class="c1">// stack configuration</span>
+<span class="p">);</span>
+</pre></div>
+</div>
 <p>Just the same as when we created a channel, we provide a string ID for the logger and a log level. The SlaveStackConfig class provides the outstation with all of its configuration. It tells the outstation how to behave, how to respond to requests, and what features to enable or disable. A description of what each parameter does is provided in the code documentation for the class. The method returns an interface that represents the outstation. It contains sub-interfaces for doing things like loading measurements.</p>
 <p>By now you&#8217;ve probably noticed that I haven&#8217;t described what the _SuccessCommandHandler::Inst()_ call is all about. This parameter is the call back interface that the application must provide to handle control requests from a master. The singleton above simply silently acknowledges all requests. The instance provided by your application will do something more interesting by implementing the <strong>_ICommandHandler_</strong> interface. If you are unfamiliar with control types and modes of operation you should read [[this | Control types and modes]].</p>
-<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>java
-// Java
-public interface CommandHandler {</p>
-<blockquote>
-<div><p>CommandStatus select(ControlRelayOutputBlock command, long index);
-CommandStatus select(AnalogOutputInt32 command, long index);</p>
-<p>// .. more signatures follow</p>
-</div></blockquote>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CommandHandler</span> <span class="o">{</span>
+
+    <span class="n">CommandStatus</span> <span class="nf">select</span><span class="o">(</span><span class="n">ControlRelayOutputBlock</span> <span class="n">command</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="n">CommandStatus</span> <span class="nf">select</span><span class="o">(</span><span class="n">AnalogOutputInt32</span> <span class="n">command</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+
+    <span class="c1">// .. more signatures follow</span>
+<span class="o">}</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h2>}<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>The interface has a method signature for each mode of operation and control type pair. This allows you to individually decide how and what to support in your outstation. It may seem like a lot of work, but just remember that the 4 AnalogOutput types all refer to the <strong>same output</strong>, just with a different variation from the master.</p>
-<p>### How to handle SELECT
-You may have noticed the <strong>_select_</strong> signatures.  The outstation stack needs to know what indices you will handle if a valid Select-before-Operate (SBO) sequence occurs when it receives the SELECT request. You shouldn&#8217;t perform the control in this callback, just do all the validation you would normally do before. If you would handle the control on that index if the function code was an Operate, then return SUCCESS. In rare cases, some outstations might prepare to do a control, i.e. if something needs to be warmed up just in case a valid operate follows the select.</p>
+<div class="section" id="how-to-handle-select">
+<h2>How to handle SELECT<a class="headerlink" href="#how-to-handle-select" title="Permalink to this headline">¶</a></h2>
+<p>You may have noticed the <strong>_select_</strong> signatures.  The outstation stack needs to know what indices you will handle if a valid Select-before-Operate (SBO) sequence occurs when it receives the SELECT request. You shouldn&#8217;t perform the control in this callback, just do all the validation you would normally do before. If you would handle the control on that index if the function code was an Operate, then return SUCCESS. In rare cases, some outstations might prepare to do a control, i.e. if something needs to be warmed up just in case a valid operate follows the select.</p>
 </div>
 </div>
 
@@ -86,12 +95,17 @@ You may have noticed the <strong>_select_</strong> signatures.  The outstation s
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Creating an outstation</a><ul>
-<li><a class="reference internal" href="#id5">);</a></li>
-<li><a class="reference internal" href="#id10">}</a></li>
+<li><a class="reference internal" href="#how-to-handle-select">How to handle SELECT</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Creating-a-master.html"
+                        title="previous chapter">Creating a master</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Creating-channels.html"
+                        title="next chapter">Creating Channels</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Creating-an-outstation.txt"
@@ -120,7 +134,14 @@ You may have noticed the <strong>_select_</strong> signatures.  The outstation s
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Creating-channels.html" title="Creating Channels"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="DNP3 Manager and the Thread Pool" href="DNP3Manager-and-the-Thread-Pool.html" />
+    <link rel="prev" title="Creating an outstation" href="Creating-an-outstation.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="DNP3Manager-and-the-Thread-Pool.html" title="DNP3 Manager and the Thread Pool"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Creating-an-outstation.html" title="Creating an outstation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,36 +57,33 @@
 <h1>Creating Channels<a class="headerlink" href="#creating-channels" title="Permalink to this headline">¶</a></h1>
 <p>Internally, communication in opendnp3 happens via an abstract communication channel interface. Opendnp3 supports TCP Client/Server and serial communications currently, but UDP and TLS encrypted TCP will be added in the near future.</p>
 <p>The manager that you created previously is now ready to have some channels bound to it. Just adding a channel to the manager does nothing other than create the record. If it&#8217;s TCP socket or serial port it won&#8217;t try to open until you bind an outstation or master. A TCP server won&#8217;t listen for connections yet either. Here&#8217;s an example of how you go about adding a TCP client. Assume we have a DNP3Manager called &#8216;manager&#8217;:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>c++
-//C++11
-IChannel* pClient = manager.AddTCPClient(</p>
-<blockquote>
-<div>&#8220;tcpclient&#8221;, //name used in log messages
-LEV_INFO,    //lowest log level of messages
-5000,        //connection retry interval mS
-&#8220;127.0.0.1&#8221;, //ip address of remote outstation
-20000);      //port remote outstation is listening on</div></blockquote>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
-<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>java
-//java
-Channel client = manager.addTCPClient(</p>
-<blockquote>
-<div>&#8220;tcpclient&#8221;,
-LogLevel.INFO,
-5000,
-&#8220;127.0.0.1&#8221;,
-20000);</div></blockquote>
-<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
-<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>csharp
-//C#
-IChannel client = mgr.AddTCPClient(</p>
-<blockquote>
-<div>&#8220;tcpclient&#8221;,
-LogLevel.INFO,
-5000,
-&#8220;127.0.0.1&#8221;,
-20000);</div></blockquote>
-<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//C++11</span>
+<span class="n">IChannel</span><span class="o">*</span> <span class="n">pClient</span> <span class="o">=</span> <span class="n">manager</span><span class="p">.</span><span class="n">AddTCPClient</span><span class="p">(</span>
+  <span class="s">&quot;tcpclient&quot;</span><span class="p">,</span> <span class="c1">//name used in log messages</span>
+  <span class="n">LEV_INFO</span><span class="p">,</span>    <span class="c1">//lowest log level of messages</span>
+  <span class="mi">5000</span><span class="p">,</span>        <span class="c1">//connection retry interval mS</span>
+  <span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="c1">//ip address of remote outstation</span>
+  <span class="mi">20000</span><span class="p">);</span>      <span class="c1">//port remote outstation is listening on</span>
+</pre></div>
+</div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">//java</span>
+<span class="n">Channel</span> <span class="n">client</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="na">addTCPClient</span><span class="o">(</span>
+  <span class="s">&quot;tcpclient&quot;</span><span class="o">,</span>
+  <span class="n">LogLevel</span><span class="o">.</span><span class="na">INFO</span><span class="o">,</span>
+  <span class="mi">5000</span><span class="o">,</span>
+  <span class="s">&quot;127.0.0.1&quot;</span><span class="o">,</span>
+  <span class="mi">20000</span><span class="o">);</span>
+</pre></div>
+</div>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="c1">//C#</span>
+<span class="n">IChannel</span> <span class="n">client</span> <span class="p">=</span> <span class="n">mgr</span><span class="p">.</span><span class="n">AddTCPClient</span><span class="p">(</span>
+  <span class="s">&quot;tcpclient&quot;</span><span class="p">,</span>
+  <span class="n">LogLevel</span><span class="p">.</span><span class="n">INFO</span><span class="p">,</span>
+  <span class="m">5000</span><span class="p">,</span>
+  <span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+  <span class="m">20000</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -85,6 +92,12 @@ LogLevel.INFO,
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Creating-an-outstation.html"
+                        title="previous chapter">Creating an outstation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="DNP3Manager-and-the-Thread-Pool.html"
+                        title="next chapter">DNP3 Manager and the Thread Pool</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Creating-channels.txt"
@@ -113,7 +126,14 @@ LogLevel.INFO,
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="DNP3Manager-and-the-Thread-Pool.html" title="DNP3 Manager and the Thread Pool"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Creating-an-outstation.html" title="Creating an outstation"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

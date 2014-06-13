@@ -25,7 +25,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="next" title="Creating a master" href="Creating-a-master.html" />
+    <link rel="prev" title="Development process" href="../Development-Process.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,6 +36,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Development-Process.html" title="Development process"
+             accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,55 +56,18 @@
 <p>The coding guide in the following sections will introduce the major classes and functions in a series of lessons that build on each other. Code snippets will be provided for all 3 languages and differences will be addressed.</p>
 <p>Content</p>
 <div class="toctree-wrapper compound">
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Creating-a-master.html">Creating a master</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html#id5">);</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html#id10">}</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Creating-a-master.html">Creating a master</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Creating-an-outstation.html">Creating an outstation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html#id5">);</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html#id10">}</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html#how-to-handle-select">How to handle SELECT</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Creating-channels.html">Creating Channels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html">DNP3 Manager and the Thread Pool</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id5">}</a></li>
-<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id10">}</a></li>
-<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html#id15">}</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Loading-measurements.html">Loading Measurements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Loading-measurements.html#id5">}</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Making-control-requests.html">Making control requests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Making-control-requests.html#id5">}</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Monitoring-channels.html">Monitoring Channels</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id5">};</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id10">});</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html#id15">});</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Monitoring-communication-health.html">Monitoring Communication health</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id5">};</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id10">});</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html#id15">});</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Writing Applications</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Creating-a-master.html">Creating a master</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Creating-an-outstation.html">Creating an outstation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Creating-channels.html">Creating Channels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html">DNP3 Manager and the Thread Pool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Loading-measurements.html">Loading Measurements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Making-control-requests.html">Making control requests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-channels.html">Monitoring Channels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Monitoring-communication-health.html">Monitoring Communication health</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="DNP3Manager-and-the-Thread-Pool.html">DNP3 Manager and the Thread Pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Loading-measurements.html">Loading Measurements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Making-control-requests.html">Making control requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Monitoring-channels.html">Monitoring Channels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Monitoring-communication-health.html">Monitoring Communication health</a></li>
 </ul>
 </div>
 </div>
@@ -107,6 +78,12 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Development-Process.html"
+                        title="previous chapter">Development process</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Creating-a-master.html"
+                        title="next chapter">Creating a master</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Writing-applications.txt"
@@ -135,6 +112,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="Creating-a-master.html" title="Creating a master"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Development-Process.html" title="Development process"
+             >previous</a> |</li>
         <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
       </ul>
     </div>

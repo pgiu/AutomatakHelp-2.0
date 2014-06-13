@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Monitoring Channels" href="Monitoring-channels.html" />
+    <link rel="prev" title="Loading Measurements" href="Loading-measurements.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-channels.html" title="Monitoring Channels"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Loading-measurements.html" title="Loading Measurements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,23 +56,24 @@
   <div class="section" id="making-control-requests">
 <h1>Making control requests<a class="headerlink" href="#making-control-requests" title="Permalink to this headline">¶</a></h1>
 <p>Application code can <strong>_issue_</strong> a control request using the <strong>_CommandProcessor_</strong> interface provided by the Master interface. You can learn about the different control types and operation modes [[here | Control types and modes]].</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>java
-// Java
-public interface CommandProcessor {</p>
-<blockquote>
-<div></div></blockquote>
-<div class="section" id="id5">
-<h2>}<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>This interface has a method signature for every control and operating mode pair. In C++ you provide a callback lambda for the result, and in C# and Java a <strong>_future_</strong> of type CommandStatus is returned. A future is an interface that represents the eventual value of the operation. You may either _synchronously <a href="#id6"><span class="problematic" id="id7">block_</span></a> for the result of the operation or _asynchronously <a href="#id8"><span class="problematic" id="id9">listen_</span></a>. The C# example below issues a CROB using the SBO operation mode and then calls Await() on the future to block the current thread until the control requests is complete:</p>
-<p><tt class="docutils literal"><span class="pre">`csharp</span>
-<span class="pre">//</span> <span class="pre">C#</span>
-<span class="pre">var</span> <span class="pre">crob</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">ControlRelayOutputBlock(ControlCode.PULSE,</span> <span class="pre">1,</span> <span class="pre">100,</span> <span class="pre">100),</span> <span class="pre">index);</span>
-<span class="pre">var</span> <span class="pre">future</span> <span class="pre">=</span> <span class="pre">master.GetCommandProcessor().SelectAndOperate(crob);</span>
-<span class="pre">CommandStatus</span> <span class="pre">result</span> <span class="pre">=</span> <span class="pre">future.Await();</span>
-<span class="pre">Console.WriteLine(&quot;Result:</span> <span class="pre">&quot;</span> <span class="pre">+</span> <span class="pre">result);</span>
-<span class="pre">`</span></tt></p>
-<p>Check out the master demo for your language to see the idiomatic way to issue a control request.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CommandProcessor</span> <span class="o">{</span>
+
+    <span class="n">ListenableFuture</span><span class="o">&lt;</span><span class="n">CommandStatus</span><span class="o">&gt;</span> <span class="n">selectAndOperate</span><span class="o">(</span><span class="n">ControlRelayOutputBlock</span> <span class="n">command</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="o">....</span>
+
+<span class="o">}</span>
+</pre></div>
 </div>
+<p>This interface has a method signature for every control and operating mode pair. In C++ you provide a callback lambda for the result, and in C# and Java a <strong>_future_</strong> of type CommandStatus is returned. A future is an interface that represents the eventual value of the operation. You may either synchronously block for the result of the operation or asynchronously listen. The C# example below issues a CROB using the SBO operation mode and then calls Await() on the future to block the current thread until the control requests is complete:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="c1">// C#</span>
+<span class="n">var</span> <span class="n">crob</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ControlRelayOutputBlock</span><span class="p">(</span><span class="n">ControlCode</span><span class="p">.</span><span class="n">PULSE</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">100</span><span class="p">),</span> <span class="n">index</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">future</span> <span class="p">=</span> <span class="n">master</span><span class="p">.</span><span class="n">GetCommandProcessor</span><span class="p">().</span><span class="n">SelectAndOperate</span><span class="p">(</span><span class="n">crob</span><span class="p">);</span>
+<span class="n">CommandStatus</span> <span class="n">result</span> <span class="p">=</span> <span class="n">future</span><span class="p">.</span><span class="n">Await</span><span class="p">();</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Result: &quot;</span> <span class="p">+</span> <span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Check out the master demo for your language to see the idiomatic way to issue a control request.</p>
 </div>
 
 
@@ -71,14 +82,12 @@ public interface CommandProcessor {</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Making control requests</a><ul>
-<li><a class="reference internal" href="#id5">}</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Loading-measurements.html"
+                        title="previous chapter">Loading Measurements</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Monitoring-channels.html"
+                        title="next chapter">Monitoring Channels</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Making-control-requests.txt"
@@ -107,7 +116,14 @@ public interface CommandProcessor {</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-channels.html" title="Monitoring Channels"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Loading-measurements.html" title="Loading Measurements"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

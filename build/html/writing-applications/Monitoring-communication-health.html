@@ -25,7 +25,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="prev" title="Monitoring Channels" href="Monitoring-channels.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +36,11 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-channels.html" title="Monitoring Channels"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,43 +52,35 @@
   <div class="section" id="monitoring-communication-health">
 <h1>Monitoring Communication health<a class="headerlink" href="#monitoring-communication-health" title="Permalink to this headline">¶</a></h1>
 <p>Most of the time your master or outstation is communicating just fine with the outside world. Sometimes, however, there are conformance issues or mis-configurations that cause the two sides not to communicate. The most common case for this is when the link layer addresses are not set correctly. OpenDNP3 provides a coarse communication health callback for the stack that is different from the channel.</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
-enum StackState {</p>
-<blockquote>
-<div>/// Online and communicating
-SS_COMMS_UP = 0,
-/// Communication has been lost
-SS_COMMS_DOWN = 1,
-/// Communication health is unknown
-SS_UNKNOWN = 2</div></blockquote>
-<div class="section" id="id5">
-<h2>};<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">enum</span> <span class="n">StackState</span> <span class="p">{</span>
+        <span class="c1">/// Online and communicating</span>
+        <span class="n">SS_COMMS_UP</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="c1">/// Communication has been lost</span>
+        <span class="n">SS_COMMS_DOWN</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="c1">/// Communication health is unknown</span>
+        <span class="n">SS_UNKNOWN</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">};</span>
+</pre></div>
+</div>
 <p>Just call <strong>_AddStateListener_</strong> on your master or outstation interface. Binding a listener is done idiomatically for each language. You may bind a state listener at any time. All callbacks will come from the underlying thread pool and you will always receive the current state immediately after you bind the listener. You never have to &#8216;ask&#8217; for the current state. In the following examples, assume that we already acquired a stack interface (master or outstation) from a channel. The callbacks here just print the state to console, but you can react to it however you like. You might display it to a user or write it to a database. It&#8217;s important to remember, however, that your callbacks should be short. During the callback, the thread from the pool that runs that stack can&#8217;t do any other work. If you need to do any kind of long running or blocking operation like writing the state to a database, it&#8217;s best to marshal the event to a different thread.</p>
-<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>cpp
-// C++11 using a lambda
-pStack-&gt;AddStateListener([](StackState state){</p>
-<blockquote>
-<div>cout &lt;&lt; &#8220;stack state: &#8221; &lt;&lt; ConvertStackStateToString(state) &lt;&lt; endl;</div></blockquote>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// C++11 using a lambda</span>
+<span class="n">pStack</span><span class="o">-&gt;</span><span class="n">AddStateListener</span><span class="p">([](</span><span class="n">StackState</span> <span class="n">state</span><span class="p">){</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;stack state: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ConvertStackStateToString</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h2>});<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>java
-// Java using an anonymous inner class
-stack.addStateListener(new StackStateListener() {</p>
-<blockquote>
-<div><p>&#64;Override
-public void onStateChange(StackState state) {</p>
-<blockquote>
-<div>System.out.println(&#8220;Stack state: &#8221; + state);</div></blockquote>
-<p>}</p>
-</div></blockquote>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java using an anonymous inner class</span>
+<span class="n">stack</span><span class="o">.</span><span class="na">addStateListener</span><span class="o">(</span><span class="k">new</span> <span class="n">StackStateListener</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStateChange</span><span class="o">(</span><span class="n">StackState</span> <span class="n">state</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Stack state: &quot;</span> <span class="o">+</span> <span class="n">state</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</pre></div>
 </div>
-<div class="section" id="id15">
-<h2>});<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">`csharp</span>
-<span class="pre">//</span> <span class="pre">c#</span> <span class="pre">using</span> <span class="pre">a</span> <span class="pre">lambda</span>
-<span class="pre">stack.AddStateListener(state</span> <span class="pre">=&gt;</span> <span class="pre">Console.WriteLine(&quot;Stack</span> <span class="pre">state:</span> <span class="pre">&quot;</span> <span class="pre">+</span> <span class="pre">state));</span>
-<span class="pre">`</span></tt></p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="c1">// c# using a lambda</span>
+<span class="n">stack</span><span class="p">.</span><span class="n">AddStateListener</span><span class="p">(</span><span class="n">state</span> <span class="p">=&gt;</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Stack state: &quot;</span> <span class="p">+</span> <span class="n">state</span><span class="p">));</span>
+</pre></div>
 </div>
 </div>
 
@@ -92,16 +90,9 @@ public void onStateChange(StackState state) {</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Monitoring Communication health</a><ul>
-<li><a class="reference internal" href="#id5">};</a></li>
-<li><a class="reference internal" href="#id10">});</a></li>
-<li><a class="reference internal" href="#id15">});</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Monitoring-channels.html"
+                        title="previous chapter">Monitoring Channels</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Monitoring-communication-health.txt"
@@ -130,7 +121,11 @@ public void onStateChange(StackState state) {</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-channels.html" title="Monitoring Channels"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

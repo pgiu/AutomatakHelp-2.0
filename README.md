@@ -46,10 +46,12 @@ Important notes on how to port from github wiki to Sphinx:
 
 Code is no highlighted using the same syntax. The syntax for code highlighting in Sphinx is something like this: 
 
+´´´
 .. code-block:: bash
 
    $ cd java
    $ mvn test
+´´´
 
 Please keep on mind that you should leave a blank line between the 'code-block' line and the beginning of the code itself.
 It is also important to keep a blank space between 'code-block::' and the name of the language (bash, in the example)

@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Making control requests" href="Making-control-requests.html" />
+    <link rel="prev" title="DNP3 Manager and the Thread Pool" href="DNP3Manager-and-the-Thread-Pool.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Making-control-requests.html" title="Making control requests"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="DNP3Manager-and-the-Thread-Pool.html" title="DNP3 Manager and the Thread Pool"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,35 +56,32 @@
   <div class="section" id="loading-measurements">
 <h1>Loading Measurements<a class="headerlink" href="#loading-measurements" title="Permalink to this headline">¶</a></h1>
 <p>Measurement loading also uses <strong>_IDataObserver_</strong>, but in the opposite direction. Instead of receiving measurements, you&#8217;ll be making the calls. You can obtain this interface from the interface you got when you created your outstation:</p>
-<p><tt class="docutils literal"><span class="pre">`cpp</span>
-<span class="pre">//</span> <span class="pre">C++</span>
-<span class="pre">IDataObserver*</span> <span class="pre">pDataObserver</span> <span class="pre">=</span> <span class="pre">pOutstation-&gt;GetDataObserver();</span>
-<span class="pre">`</span></tt></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// C++</span>
+<span class="n">IDataObserver</span><span class="o">*</span> <span class="n">pDataObserver</span> <span class="o">=</span> <span class="n">pOutstation</span><span class="o">-&gt;</span><span class="n">GetDataObserver</span><span class="p">();</span>
+</pre></div>
+</div>
 <p>The IDataObserver interface is <strong>_transactional_</strong>. You must call Start() followed by 0 or more calls to Update(x) followed by a call to End(). The outstation will see this data as a batch, and so long as it can put all the measurement data into one fragment, the measurements will be reported to the master as a batch.</p>
 <p>In C++ you can use the Transaction helper class. For the design pattern fans among you, this pattern is called the Resource Acquisition Is Initialization ([[RAII | <a class="reference external" href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization</a>]]). This is a common pattern for writing exception safe code.</p>
-<p><tt class="docutils literal"><span class="pre">`cpp</span>
-<span class="pre">//</span> <span class="pre">C++</span>
-<span class="pre">{</span>
-<span class="pre">Transaction</span> <span class="pre">t(pDataObserver);</span> <span class="pre">//automatically</span> <span class="pre">calls</span> <span class="pre">Start()</span> <span class="pre">on</span> <span class="pre">contruction</span>
-<span class="pre">pDataObserver-&gt;Update(Counter(3),</span> <span class="pre">0);</span> <span class="pre">//default</span> <span class="pre">time</span> <span class="pre">and</span> <span class="pre">quality</span>
-<span class="pre">//</span> <span class="pre">..</span> <span class="pre">update</span> <span class="pre">more</span> <span class="pre">measurements</span> <span class="pre">here</span>
-<span class="pre">}</span> <span class="pre">//automatically</span> <span class="pre">calls</span> <span class="pre">End()</span> <span class="pre">on</span> <span class="pre">destruction</span>
-<span class="pre">`</span></tt></p>
-<p>Java and C# don&#8217;t have deterministic destructors, but they do have finally blocks:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>C#
-// C#
-publisher.Start();
-try {</p>
-<blockquote>
-<div>publisher.Update(new Analog(value, 1, DateTime.Now), 0);</div></blockquote>
-<p>}
-finally {</p>
-<blockquote>
-<div>publisher.End();</div></blockquote>
-<div class="section" id="id5">
-<h2>}<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>The DataObserver isn&#8217;t going to throw and exception on you unless you try to load measurements that weren&#8217;t configured in the outstation database.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// C++</span>
+<span class="p">{</span>
+<span class="n">Transaction</span> <span class="n">t</span><span class="p">(</span><span class="n">pDataObserver</span><span class="p">);</span> <span class="c1">//automatically calls Start() on contruction</span>
+<span class="n">pDataObserver</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">//default time and quality</span>
+<span class="c1">// .. update more measurements here</span>
+<span class="p">}</span> <span class="c1">//automatically calls End() on destruction</span>
+</pre></div>
 </div>
+<p>Java and C# don&#8217;t have deterministic destructors, but they do have finally blocks:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="c1">// C#</span>
+<span class="n">publisher</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="n">publisher</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="k">new</span> <span class="n">Analog</span><span class="p">(</span><span class="k">value</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">finally</span> <span class="p">{</span>
+  <span class="n">publisher</span><span class="p">.</span><span class="n">End</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The DataObserver isn&#8217;t going to throw and exception on you unless you try to load measurements that weren&#8217;t configured in the outstation database.</p>
 </div>
 
 
@@ -83,14 +90,12 @@ finally {</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Loading Measurements</a><ul>
-<li><a class="reference internal" href="#id5">}</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="DNP3Manager-and-the-Thread-Pool.html"
+                        title="previous chapter">DNP3 Manager and the Thread Pool</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Making-control-requests.html"
+                        title="next chapter">Making control requests</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Loading-measurements.txt"
@@ -119,7 +124,14 @@ finally {</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Making-control-requests.html" title="Making control requests"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="DNP3Manager-and-the-Thread-Pool.html" title="DNP3 Manager and the Thread Pool"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Creating an outstation" href="Creating-an-outstation.html" />
+    <link rel="prev" title="Writing Applications" href="Writing-applications.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Creating-an-outstation.html" title="Creating an outstation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Writing-applications.html" title="Writing Applications"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,37 +57,33 @@
 <h1>Creating a master<a class="headerlink" href="#creating-a-master" title="Permalink to this headline">¶</a></h1>
 <p>A <strong>_master_</strong> in OpenDNP3 is a component that communicates with a single outstation via a communication channel. You may see this term used in other places to refer to a collection of such components communicating with multiple outstations. When more than one master is bound to a single communication channel, it is called a <strong>_multidrop_</strong> configuration. This refers to the way in which an RS-485 serial network is chained from device to device. OpenDNP3 will let you add multiple masters / outstations to any communication channel, regardless of he underlying transport. You could even bind a master to a TCP server and reverse the normal connection direction. OpenDNP3 doesn&#8217;t care.</p>
 <p>To add a master to a communication channel you call the _AddMaster_ method on the channel interface:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
-// C++
-MasterStackConfig stackConfig;  // initialized with defaults</p>
-<dl class="docutils">
-<dt>IMaster* pMaster = pChannel-&gt;AddMaster(</dt>
-<dd>&#8220;master&#8221;,                     // stack name
-LEV_INFO,                     // log filter level
-PrintingDataObserver::Inst(), // see below
-stackConfig                   // stack configuration</dd>
-</dl>
-<div class="section" id="id5">
-<h2>);<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// C++</span>
+<span class="n">MasterStackConfig</span> <span class="n">stackConfig</span><span class="p">;</span>  <span class="c1">// initialized with defaults</span>
+
+<span class="n">IMaster</span><span class="o">*</span> <span class="n">pMaster</span> <span class="o">=</span> <span class="n">pChannel</span><span class="o">-&gt;</span><span class="n">AddMaster</span><span class="p">(</span>
+  <span class="s">&quot;master&quot;</span><span class="p">,</span>                     <span class="c1">// stack name</span>
+  <span class="n">LEV_INFO</span><span class="p">,</span>                     <span class="c1">// log filter level</span>
+  <span class="n">PrintingDataObserver</span><span class="o">::</span><span class="n">Inst</span><span class="p">(),</span> <span class="c1">// see below</span>
+  <span class="n">stackConfig</span>                   <span class="c1">// stack configuration</span>
+<span class="p">);</span>
+</pre></div>
+</div>
 <p>Just the same as when we created a channel, we provide a string ID for the logger and a log level. The <strong>_MasterStackConfig_</strong> class provides the master with all of its configuration. It tells the master how to behave, what scans to do, and what features to enable or disable on the outstation. A description of what each parameter does is provided in the code documentation for the class. The method returns an interface that represents the master. It contains sub-interfaces for doing things like issuing controls.</p>
 <p>By now you&#8217;ve probably noticed that I haven&#8217;t described what the _PrintingDataObserver::Inst()_ call is all about. This parameter is the call back interface that the application must provide to receive measurements as they are received from the outstation. The singleton above simply prints all measurements received to the console. The instance provided by your application will do something more interesting by implementing the <strong>_IDataObserver_</strong> interface.</p>
-<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>java
-// Java
-public interface DataObserver {</p>
-<blockquote>
-<div>void start();
-void update(BinaryInput meas, long index);
-void update(AnalogInput meas, long index);
-void update(Counter meas, long index);
-void update(BinaryOutputStatus meas, long index);
-void update(AnalogOutputStatus meas, long index);
-void end();</div></blockquote>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DataObserver</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">start</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">BinaryInput</span> <span class="n">meas</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">AnalogInput</span> <span class="n">meas</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">Counter</span> <span class="n">meas</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">BinaryOutputStatus</span> <span class="n">meas</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">AnalogOutputStatus</span> <span class="n">meas</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">end</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h2>}<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>The master will call start() prior to any calls to update(X) and will call end() last. The master does this for each application layer <strong>_fragment_</strong> containing measurement data received from the outstation, allowing you to individually handle them. If the master does an <strong>_integrity poll_</strong> and receives a 4 fragment response, the data observer will be called 4 times with a complete start()/update(X)/end() cycle.</p>
 <p>It is important to remember that while the master is calling you back with measurement updates, it can&#8217;t do any other work like react to control requests. It&#8217;s OK to do a little work like translating the data types, etc during the callbacks, but it&#8217;s best to offload any blocking I/O like writing to a database to another thread.</p>
-</div>
 </div>
 
 
@@ -86,15 +92,12 @@ void end();</div></blockquote>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Creating a master</a><ul>
-<li><a class="reference internal" href="#id5">);</a></li>
-<li><a class="reference internal" href="#id10">}</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Writing-applications.html"
+                        title="previous chapter">Writing Applications</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Creating-an-outstation.html"
+                        title="next chapter">Creating an outstation</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Creating-a-master.txt"
@@ -123,7 +126,14 @@ void end();</div></blockquote>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Creating-an-outstation.html" title="Creating an outstation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Writing-applications.html" title="Writing Applications"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

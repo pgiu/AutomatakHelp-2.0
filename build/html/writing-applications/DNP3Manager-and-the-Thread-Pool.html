@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Loading Measurements" href="Loading-measurements.html" />
+    <link rel="prev" title="Creating Channels" href="Creating-channels.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Loading-measurements.html" title="Loading Measurements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Creating-channels.html" title="Creating Channels"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,61 +56,50 @@
   <div class="section" id="dnp3-manager-and-the-thread-pool">
 <h1>DNP3 Manager and the Thread Pool<a class="headerlink" href="#dnp3-manager-and-the-thread-pool" title="Permalink to this headline">¶</a></h1>
 <p>Programs, regardless of how complex, need an instance of the manager class. It&#8217;s the starting point for adding communication channels, tapping into the logging sub-system, etc. The manager class is given a number when it is constructed. This parameter tells the stack how many threads to allocate to its thread pool. Even though the underlying stack is completely asynchronous and uses all non-blocking calls, the thread pool allows the stack to scale up and stay responsive. Even when a callback to users code is slow, the other connections keep on doing work. Here are the simplest possible programs that instantiate a manager instance. The rest of the tutorials will assume you have this basic infrastructure.</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>c++
-// C++11
-#include &lt;opendnp3/DNP3Manager.h&gt;
-#include &lt;thread&gt;</p>
-<p>using namespace opendnp3;</p>
-<p>int main(int argc, char* argv[])
-{</p>
-<blockquote>
-<div>// hardware_concurrency() gives hint of number of hardware thread contexts
-DNP3Manager manager(std::thread::hardware_concurrency());</div></blockquote>
-<div class="section" id="id5">
-<h2>}<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>java
-// Java
-import com.automatak.dnp3.DNP3Manager;
-import com.automatak.dnp3.impl.DNP3ManagerFactory;</p>
-<p>public class Main
-{</p>
-<blockquote>
-<div><p>public static void main(String[] args)
-{</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>DNP3Manager manager = DNP3ManagerFactory.createManager(</dt>
-<dd>Runtime.getRuntime().availableProcessors()</dd>
-</dl>
-<p>);
-manager.shutdown();</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">// C++11</span>
+<span class="cp">#include &lt;opendnp3/DNP3Manager.h&gt;</span>
+<span class="cp">#include &lt;thread&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">opendnp3</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+  <span class="c1">// hardware_concurrency() gives hint of number of hardware thread contexts</span>
+  <span class="n">DNP3Manager</span> <span class="n">manager</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">::</span><span class="n">hardware_concurrency</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h2>}<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>csharp
-// C#
-using DNP3.Adapter;
-using DNP3.Interface;</p>
-<p>class Main
-{</p>
-<blockquote>
-<div><p>static void Main(string[] args)
-{</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>var manager = DNP3ManagerFactory.CreateManager(</dt>
-<dd>Environment.ProcessorCount</dd>
-</dl>
-<p>);</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java</span>
+<span class="kn">import</span> <span class="nn">com.automatak.dnp3.DNP3Manager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.automatak.dnp3.impl.DNP3ManagerFactory</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span>
+<span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+    <span class="o">{</span>
+       <span class="n">DNP3Manager</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">DNP3ManagerFactory</span><span class="o">.</span><span class="na">createManager</span><span class="o">(</span>
+         <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">availableProcessors</span><span class="o">()</span>
+       <span class="o">);</span>
+       <span class="n">manager</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
 </div>
-<div class="section" id="id15">
-<h2>}<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="c1">// C#</span>
+<span class="k">using</span> <span class="nn">DNP3.Adapter</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">DNP3.Interface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Main</span>
+<span class="p">{</span>
+  <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">var</span> <span class="n">manager</span> <span class="p">=</span> <span class="n">DNP3ManagerFactory</span><span class="p">.</span><span class="n">CreateManager</span><span class="p">(</span>
+      <span class="n">Environment</span><span class="p">.</span><span class="n">ProcessorCount</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </div>
 
@@ -110,16 +109,12 @@ using DNP3.Interface;</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">DNP3 Manager and the Thread Pool</a><ul>
-<li><a class="reference internal" href="#id5">}</a></li>
-<li><a class="reference internal" href="#id10">}</a></li>
-<li><a class="reference internal" href="#id15">}</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Creating-channels.html"
+                        title="previous chapter">Creating Channels</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Loading-measurements.html"
+                        title="next chapter">Loading Measurements</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/DNP3Manager-and-the-Thread-Pool.txt"
@@ -148,7 +143,14 @@ using DNP3.Interface;</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Loading-measurements.html" title="Loading Measurements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Creating-channels.html" title="Creating Channels"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

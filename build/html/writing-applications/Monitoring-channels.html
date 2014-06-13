@@ -25,7 +25,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" /> 
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Writing Applications" href="Writing-applications.html" />
+    <link rel="next" title="Monitoring Communication health" href="Monitoring-communication-health.html" />
+    <link rel="prev" title="Making control requests" href="Making-control-requests.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-communication-health.html" title="Monitoring Communication health"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Making-control-requests.html" title="Making control requests"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" accesskey="U">Writing Applications</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,47 +56,35 @@
   <div class="section" id="monitoring-channels">
 <h1>Monitoring Channels<a class="headerlink" href="#monitoring-channels" title="Permalink to this headline">¶</a></h1>
 <p>Most of the time your communication channel is open and actively running dnp3 traffic. Sometimes, however, things can go wrong with your network or you have mis-configured your connection. The communication channel interface offers a way to monitor the state of channel. These states are represented by an enumeration:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
-enum ChannelState {</p>
-<blockquote>
-<div>/// offline and idle
-CS_CLOSED = 0,
-/// trying to open
-CS_OPENING = 1,
-/// waiting to open
-CS_WAITING = 2,
-/// open
-CS_OPEN = 3,
-/// stopped and will never do anything again
-CS_SHUTDOWN = 4</div></blockquote>
-<div class="section" id="id5">
-<h2>};<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">enum</span> <span class="n">ChannelState</span> <span class="p">{</span>
+        <span class="c1">/// offline and idle</span>
+        <span class="n">CS_CLOSED</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="c1">/// trying to open</span>
+        <span class="n">CS_OPENING</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="c1">/// waiting to open</span>
+        <span class="n">CS_WAITING</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="c1">/// open</span>
+        <span class="n">CS_OPEN</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="c1">/// stopped and will never do anything again</span>
+        <span class="n">CS_SHUTDOWN</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="p">};</span>
+</pre></div>
+</div>
 <p>Binding a listener is done idiomatically for each language. You may bind a state listener at any time before or after a stack is added to channel. All callbacks will come from the underlying thread pool and you will always receive the current state immediately after you bind the listener. You never have to &#8216;ask&#8217; for the current state. In the following examples, assume that we already acquired a channel interface (client, server, serial, etc) from the DNP3Manager root class. The callbacks here just print the state to console, but you can react to it however you like. You might display it to a user or write it to a database. It&#8217;s important to remember, however, that your callbacks should be short. During the callback, the thread from the pool that runs that channel can&#8217;t do any other work. If you need to do any kind of long running or blocking operation like writing the state to a database, it&#8217;s best to marshal the event to a different thread.</p>
-<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>cpp
-// C++11 using a lambda
-pChannel-&gt;AddStateListener([](ChannelState state){</p>
-<blockquote>
-<div>cout &lt;&lt; &#8220;state: &#8221; &lt;&lt; ConvertChannelStateToString(state) &lt;&lt; endl;</div></blockquote>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// C++11 using a lambda</span>
+<span class="n">pChannel</span><span class="o">-&gt;</span><span class="n">AddStateListener</span><span class="p">([](</span><span class="n">ChannelState</span> <span class="n">state</span><span class="p">){</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;state: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ConvertChannelStateToString</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h2>});<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>java
-// Java using an anonymous inner class
-channel.addStateListener(new ChannelStateListener() {</p>
-<blockquote>
-<div><p>&#64;Override
-public void onStateChange(ChannelState state) {</p>
-<blockquote>
-<div>System.out.println(&#8220;state: &#8221; + state);</div></blockquote>
-<p>}</p>
-</div></blockquote>
-</div>
-<div class="section" id="id15">
-<h2>});<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">`csharp</span>
-<span class="pre">//</span> <span class="pre">c#</span> <span class="pre">using</span> <span class="pre">a</span> <span class="pre">lambda</span>
-<span class="pre">channel.AddStateListener(state</span> <span class="pre">=&gt;</span> <span class="pre">Console.WriteLine(&quot;state:</span> <span class="pre">&quot;</span> <span class="pre">+</span> <span class="pre">state));</span>
-<span class="pre">`</span></tt></p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Java using an anonymous inner class</span>
+<span class="n">channel</span><span class="o">.</span><span class="na">addStateListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ChannelStateListener</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStateChange</span><span class="o">(</span><span class="n">ChannelState</span> <span class="n">state</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;state: &quot;</span> <span class="o">+</span> <span class="n">state</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</pre></div>
 </div>
 </div>
 
@@ -96,16 +94,12 @@ public void onStateChange(ChannelState state) {</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Monitoring Channels</a><ul>
-<li><a class="reference internal" href="#id5">};</a></li>
-<li><a class="reference internal" href="#id10">});</a></li>
-<li><a class="reference internal" href="#id15">});</a></li>
-</ul>
-</li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Making-control-requests.html"
+                        title="previous chapter">Making control requests</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Monitoring-communication-health.html"
+                        title="next chapter">Monitoring Communication health</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/writing-applications/Monitoring-channels.txt"
@@ -134,7 +128,14 @@ public void onStateChange(ChannelState state) {</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="Monitoring-communication-health.html" title="Monitoring Communication health"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Making-control-requests.html" title="Making control requests"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Writing-applications.html" >Writing Applications</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
