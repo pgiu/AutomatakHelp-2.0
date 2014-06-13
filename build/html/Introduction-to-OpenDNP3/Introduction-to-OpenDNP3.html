@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction to OpenDNP3 &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="prev" title="Automatak DNP3 Help’s documentation!" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Automatak DNP3 Help’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction-to-opendnp3">
+<h1>Introduction to OpenDNP3<a class="headerlink" href="#introduction-to-opendnp3" title="Permalink to this headline">¶</a></h1>
+<p>OpenDNP3 is a portable, scalable, and rigorously tested implementation of the DNP3 written in C++. The library
+is optimized for massively parallel front end processor implementations and slave device simulations, although it performs very well on embedded linux as well. Idiomatic bindings are available for the Microsoft CLR family of languages (C#, VB.NET, F#, etc) and JVM-based languages (Java, Scala, Clojure, etc).</p>
+<p>The library has been in use production since 2006. This fork is maintained and supported by Automatak, LLC. The improvements here are based on many years of user feedback and real world deployment experience.</p>
+<p>OpenDNP3 is very different from proprietary implementations. The biggest difference is the user has free access to the entire source code for the library and the associated tools like test-sets. You are free to experiment, change the code, etc, and can be as involved as you care to be in the future of the code-base. You have access to a community of experts whose collective experience and advice you can tap. You are not just the client of a company, although Automatak will provide as much support as you require.</p>
+<div class="section" id="compared-to-iec61850">
+<h2>Compared to IEC61850<a class="headerlink" href="#compared-to-iec61850" title="Permalink to this headline">¶</a></h2>
+<p>IEC61850 is an international standard for utility automation, whereas DNP3 is mostly deployed in North America and Australia.  When comparing the two, it is only useful to compare the telemetry / SCADA portions of 61850, as 61850 is actually a canopy for a number of different related protocols and standards. Major differences include:</p>
+<ul class="simple">
+<li>IEC61850 includes standard object models as a layer above MMS. This has advantages and disadvantages. It enforces that vendors model equipment in the same way and this can reduce error prone configuration. The disadvantage is that it is not generic enough for all types of equipment. The accompanying standards that define how things like windmills are modeled have always lagged the core substation models. IEC61850 object models will not always be standardized in the face of innovation. As equipment on the power system evolves, the models must be updated and changed. DNP3 on the other hand doesn&#8217;t make you model your device in any particular way. This can be bad for standardization, but makes it very flexible for use in any application.</li>
+<li>IEC61850 telemetry is ONLY suitable for transport over reliable connections like TCP. It does not define any error checking, instead preferring to rely on standard networking technologies. DNP3 can be used over a large cross-section of unreliable networks.</li>
+</ul>
+</div>
+<div class="section" id="compared-to-modbus">
+<h2>Compared to Modbus<a class="headerlink" href="#compared-to-modbus" title="Permalink to this headline">¶</a></h2>
+<p>DNP3 has one major disadvantage vs Modbus. The entire Modbus standard is less than 70 pages and is easy to implement. The IEEE specification for DNP3 is in excess of 1,000 pages. It is hard to implement correctly. However, DNP3 has many advantages over Modbus that make it worth investing in a good implementation:</p>
+<ul class="simple">
+<li>Measurement data in dnp3 occurs in <strong>_events_</strong>. This means that an outstation is aware of which measurements a master has received and is able to only report the changes. This drastically reduces the amount of network traffic, especially for larger outstations. If a master ever loses synchronization it can always request the full <strong>_static_</strong> state.</li>
+<li>An <strong>_unsolicited_</strong> mode allows an outstation to &#8220;push&#8221; measurement data to a master as changes occur. Not only does this reduce network chatter, but it also reduces latency. A master doesn&#8217;t have to <strong>_scan_</strong> an outstation at a high rate to maintain a high refresh rate for an operator console.</li>
+<li>DNP3 has a very strong Cyclic Redundancy Check (CRC) built into its lowest layer. This offers much better error resilience over lossy transport media than a check-sum.</li>
+<li>DNP3 is very scalable compared to Modbus. What is meant by this is that outstation databases can be of arbitrary size. In modbus, responses are limited to a certain size, whereas a dnp3 outstation can respond with a virtually unlimited number of message <strong>_fragments_</strong> that are individually parse-able.</li>
+<li>DNP3 has one profile that works well over a variety of transport media (aka physical layer). This means that a special flavor of the protocol isn&#8217;t required for radio / mesh wireless / serial / TCP / UDP.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to OpenDNP3</a><ul>
+<li><a class="reference internal" href="#compared-to-iec61850">Compared to IEC61850</a></li>
+<li><a class="reference internal" href="#compared-to-modbus">Compared to Modbus</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Automatak DNP3 Help&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Introduction-to-OpenDNP3/Introduction-to-OpenDNP3.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Automatak DNP3 Help’s documentation!"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

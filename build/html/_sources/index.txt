@@ -6,6 +6,11 @@
 Automatak DNP3 Help's documentation!
 ===============================================
 
+.. image:: img/opendnp3.png
+
+.. image:: img/automatak_logo.png
+
+
 Welcome to Automatak DNP3 Help's documentation!
 
 There are currently two release branches:
@@ -23,10 +28,10 @@ Contents:
 ---------
 .. toctree::
    :maxdepth: 2
+   :glob:
 
-   writing-applications/Writing-applications
-   
-
+   Introduction-to-OpenDNP3/Introduction-to-OpenDNP3
+   Building/*
 
 Call for contributors
 ---------------------
