@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Project layout &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="project-layout">
+<h1>Project layout<a class="headerlink" href="#project-layout" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-main-directories-are-organized-by-language">
+<h2>The main directories are organized by language<a class="headerlink" href="#the-main-directories-are-organized-by-language" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-java"><div class="highlight"><pre><span class="o">/</span><span class="n">cpp</span>                     <span class="c1">// root for all c++ source code</span>
+  <span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">opendnp3</span>      <span class="c1">// public headers</span>
+  <span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">opendnp3</span>          <span class="c1">// private part of the core library and implementation</span>
+  <span class="o">/</span><span class="n">tests</span>                 <span class="c1">// tests of the core library</span>
+  <span class="o">/</span><span class="n">demos</span>                 <span class="c1">// simple master and outstation example projects</span>
+<span class="o">/</span><span class="n">java</span>                    <span class="c1">// root for Java bindings and Maven pom.xml</span>
+  <span class="o">/</span><span class="n">cpp</span>                   <span class="c1">// where JNI bindings and adapters live</span>
+  <span class="o">/</span><span class="n">api</span>                   <span class="c1">// java-doced api in pure java</span>
+  <span class="o">/</span><span class="n">bindings</span>              <span class="c1">// classes with native methods and adapter code</span>
+  <span class="o">/</span><span class="n">example</span>               <span class="c1">// java master / outstation examples</span>
+<span class="o">/</span><span class="n">clr</span>                     <span class="c1">// Microsoft .NET wrappers</span>
+  <span class="o">/</span><span class="n">DNP3CLRInterface</span>      <span class="c1">// pure C# interfaces</span>
+  <span class="o">/</span><span class="n">DNP3CLRAdapter</span>        <span class="c1">// C++ CLR adapter code</span>
+  <span class="o">/</span><span class="n">DNP3CLRMasterDemo</span>     <span class="c1">// example master application in C#</span>
+  <span class="o">/</span><span class="n">DNP3CLROutstationDemo</span> <span class="c1">// example outstation application in C#</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="minor-directories">
+<h2>Minor directories<a class="headerlink" href="#minor-directories" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-java"><div class="highlight"><pre><span class="o">/</span><span class="n">config</span>                  <span class="c1">// visual studio property sheets mostly</span>
+<span class="o">/</span><span class="n">scripts</span>                 <span class="c1">// install scripts for Boost if you MUST</span>
+<span class="o">/</span><span class="n">m4</span>                      <span class="c1">// autotools macros</span>
+<span class="o">/</span><span class="n">profile</span>                 <span class="c1">// device profile documents (not up-to-date)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Project layout</a><ul>
+<li><a class="reference internal" href="#the-main-directories-are-organized-by-language">The main directories are organized by language</a></li>
+<li><a class="reference internal" href="#minor-directories">Minor directories</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Project-layout.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

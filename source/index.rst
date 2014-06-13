@@ -27,15 +27,17 @@ This is just a test, in the future, i'll be formatting the rest of the files to 
 Contents:
 ---------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :glob:
 
+   Introduction-to-DNP3/Introduction-to-DNP3
    Introduction-to-OpenDNP3/Introduction-to-OpenDNP3
-   Java/Java-Support
+   Project-layout
    Prerequisites/Prerequisites
    Building/*
-   Embedded-systems
    Development-Process
+   Embedded-systems
+   Java/Java-Support
    writing-applications/Writing-applications
    
 

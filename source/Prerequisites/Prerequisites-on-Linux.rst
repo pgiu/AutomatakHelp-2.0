@@ -1,7 +1,7 @@
 Prerequisites on linux
 ======================
 
-Contenido
+Content
 ---------
 ADD an index here!!!
 
