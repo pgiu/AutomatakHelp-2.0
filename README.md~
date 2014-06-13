@@ -54,6 +54,5 @@ Code is no highlighted using the same syntax. The syntax for code highlighting i
 Please keep on mind that you should leave a blank line between the 'code-block' line and the beginning of the code itself.
 It is also important to keep a blank space between 'code-block::' and the name of the language (bash, in the example)
 
-On the left panel of every sphinx page, there is a link that says: 'show source'. If you like some feature of the page you're seeing you can just copy that line of code ! 
 
 		

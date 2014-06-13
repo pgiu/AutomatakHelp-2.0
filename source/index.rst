@@ -31,6 +31,7 @@ Contents:
    :glob:
 
    Introduction-to-OpenDNP3/Introduction-to-OpenDNP3
+   Java/Java-Support
    Building/*
 
 Call for contributors
