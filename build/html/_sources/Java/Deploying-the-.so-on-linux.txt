@@ -18,4 +18,3 @@ The best way to verify that you've installed the library correctly is to run the
 
    $ cd java
    $ mvn test
-

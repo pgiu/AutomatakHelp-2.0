@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Prerequisites on linux &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="up" title="Prerequisites" href="Prerequisites.html" />
+    <link rel="next" title="Prerequisites on Windows" href="Prerequisites-on-windows.html" />
+    <link rel="prev" title="Prerequisites" href="Prerequisites.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Prerequisites-on-windows.html" title="Prerequisites on Windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Prerequisites.html" title="Prerequisites"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Prerequisites.html" accesskey="U">Prerequisites</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="prerequisites-on-linux">
+<h1>Prerequisites on linux<a class="headerlink" href="#prerequisites-on-linux" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="contenido">
+<h2>Contenido<a class="headerlink" href="#contenido" title="Permalink to this headline">¶</a></h2>
+<p>ADD an index here!!!</p>
+</div>
+<div class="section" id="g-4-6-x">
+<h2>g++ 4.6.x<a class="headerlink" href="#g-4-6-x" title="Permalink to this headline">¶</a></h2>
+<p>The reason the compiler support required is so cutting edge is because of C++11. This was done primarily to reduce the required pieces of Boost. Installation may vary from platform to platform.</p>
+<div class="section" id="ubuntu-12-04">
+<h3>Ubuntu 12.04<a class="headerlink" href="#ubuntu-12-04" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install g++
+</pre></div>
+</div>
+</div>
+<div class="section" id="fedora18">
+<h3>Fedora18<a class="headerlink" href="#fedora18" title="Permalink to this headline">¶</a></h3>
+<p>Use the package manager to install gcc and gcc-c++ or:-</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo yum install gcc gcc-c++
+</pre></div>
+</div>
+<p>Will install or update the compilers or indicate that they are already installed and latest version.</p>
+</div>
+</div>
+<div class="section" id="gnu-autotools">
+<h2>GNU autotools<a class="headerlink" href="#gnu-autotools" title="Permalink to this headline">¶</a></h2>
+<p>Most developers already have this installed, but here are some platform specific hints.</p>
+<div class="section" id="id1">
+<h3>Ubuntu 12.04<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install autoconf libtool
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Fedora18<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Use the package manager to install autoconf, m4, libtool and automake, or:-</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo yum install autoconf m4 libtool automake
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="boost">
+<h2>Boost<a class="headerlink" href="#boost" title="Permalink to this headline">¶</a></h2>
+<p>Most linux distros have packages for at least 1.50.0.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install liboost-1.50-all-dev
+</pre></div>
+</div>
+<div class="section" id="id3">
+<h3>Fedora18<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Use the package manager to install boost, or:-</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo yum install boost
+</pre></div>
+</div>
+<p>If you want to install the latest and greatest you need to build from source but its pretty easy:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>wget http://sourceforge.net/projects/boost/files/boost/1.52.0/boost_1_52_0.tar.gz/download -O boost.tar.gz
+<span class="nv">$ </span>tar -xvf boost.tar.gz
+<span class="nv">$ </span><span class="nb">cd </span>boost_1_52_0
+<span class="nv">$ </span>./bootstrap.sh
+<span class="nv">$ </span>sudo ./b2 install --prefix<span class="o">=</span>/usr --with-system --with-test
+</pre></div>
+</div>
+<p>If you just want to go ahead and install ALL of boost in case you want it for something else in the future just leave off the &#8216;&#8211;with-&#8216; statements. The prefix given may vary for another Linux disto.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Prerequisites on linux</a><ul>
+<li><a class="reference internal" href="#contenido">Contenido</a></li>
+<li><a class="reference internal" href="#g-4-6-x">g++ 4.6.x</a><ul>
+<li><a class="reference internal" href="#ubuntu-12-04">Ubuntu 12.04</a></li>
+<li><a class="reference internal" href="#fedora18">Fedora18</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gnu-autotools">GNU autotools</a><ul>
+<li><a class="reference internal" href="#id1">Ubuntu 12.04</a></li>
+<li><a class="reference internal" href="#id2">Fedora18</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#boost">Boost</a><ul>
+<li><a class="reference internal" href="#id3">Fedora18</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Prerequisites.html"
+                        title="previous chapter">Prerequisites</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Prerequisites-on-windows.html"
+                        title="next chapter">Prerequisites on Windows</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Prerequisites/Prerequisites-on-Linux.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Prerequisites-on-windows.html" title="Prerequisites on Windows"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Prerequisites.html" title="Prerequisites"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li>
+          <li><a href="Prerequisites.html" >Prerequisites</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

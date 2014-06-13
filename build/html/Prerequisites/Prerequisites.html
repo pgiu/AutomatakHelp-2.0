@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Prerequisites &mdash; Automatak DNP3 Help 1.0.x documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.x',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Automatak DNP3 Help 1.0.x documentation" href="../index.html" />
+    <link rel="next" title="Prerequisites on linux" href="Prerequisites-on-Linux.html" />
+    <link rel="prev" title="Deploying the .so on linux" href="../Java/Deploying-the-.so-on-linux.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Prerequisites-on-Linux.html" title="Prerequisites on linux"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Java/Deploying-the-.so-on-linux.html" title="Deploying the .so on linux"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h1>
+<p>Content</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Prerequisites-on-Linux.html">Prerequisites on linux</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-Linux.html#contenido">Contenido</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-Linux.html#g-4-6-x">g++ 4.6.x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-Linux.html#gnu-autotools">GNU autotools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-Linux.html#boost">Boost</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Prerequisites-on-windows.html">Prerequisites on Windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-windows.html#visual-studio-2012">Visual Studio 2012</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-windows.html#boost">Boost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prerequisites-on-windows.html#java-optional">Java (optional)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>## C++11</p>
+<p>The core library written in C++, but makes use of more and more C++11 features all the time. This makes the code faster and easier to understand, but you do need a C++11 compiler.</p>
+<p>## Boost libraries</p>
+<p>The usage of boost has been substantially reduced from the original open source project. The main library only needs Boost::ASIO (header-only) and Boost::System (library). Follow the platforms specific directions to get Boost installed on your system. An asio-like networking api may be available in future releases of the C++ standard at which point the project may drop Boost altogether.</p>
+<p>## Boost libraries &gt;= version 1.50.0</p>
+<p>This is the default. To achieve steady timer support, it uses the boost::asio::steady_timer typedef added in 1.50.0.  You don&#8217;t have to do anything special to use this.</p>
+<p><strong>Avoid Boost::ASIO 1.54 for Linux!!! There&#8217;s a [regression](https://svn.boost.org/trac/boost/ticket/8795) that will cause you grief</strong></p>
+<p>## Boost libraries &lt; version 1.50.0</p>
+<p>The pre-processor directive OPENDNP3_BOOST_TIMER_PATCH must be defined to use BOOST versions prior to 1.50.0. Using autotools, this looks like:</p>
+<p><tt class="docutils literal"><span class="pre">`</span>
+<span class="pre">$</span> <span class="pre">./configure</span> <span class="pre">CXXFLAGS=-DOPENDNP3_BOOST_TIMER_PATCH</span>
+<span class="pre">`</span></tt></p>
+<p>## Platforms besides Windows and Linux</p>
+<p>In theory, the library should work on MacOS and a host of other platforms supported by BOOST, but no one has tried it yet. Be the first!</p>
+<p>## Java (optional)</p>
+<p>If you want to build the java bindings shared library you need at least JDK 1.6. For either build system to find the jni headers you need to define the JAVA_HOME environment variable:</p>
+<p><tt class="docutils literal"><span class="pre">`</span>
+<span class="pre">JAVA_HOME</span> <span class="pre">=</span> <span class="pre">&lt;root</span> <span class="pre">directory</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">jdk</span> <span class="pre">installation&gt;</span>
+<span class="pre">`</span></tt></p>
+<p>On windows this might be something like:</p>
+<p><cite>C:Program Files (x86)Javajdk1.7.0_11</cite></p>
+<p>On linux this might be something like:</p>
+<p><cite>/usr/lib/jvm/java-7-oracle</cite></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Java/Deploying-the-.so-on-linux.html"
+                        title="previous chapter">Deploying the .so on linux</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Prerequisites-on-Linux.html"
+                        title="next chapter">Prerequisites on linux</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Prerequisites/Prerequisites.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Prerequisites-on-Linux.html" title="Prerequisites on linux"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Java/Deploying-the-.so-on-linux.html" title="Deploying the .so on linux"
+             >previous</a> |</li>
+        <li><a href="../index.html">Automatak DNP3 Help 1.0.x documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alan Crain.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

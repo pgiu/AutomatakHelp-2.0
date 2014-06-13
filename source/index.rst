@@ -32,7 +32,11 @@ Contents:
 
    Introduction-to-OpenDNP3/Introduction-to-OpenDNP3
    Java/Java-Support
+   Prerequisites/Prerequisites
    Building/*
+   Embedded-systems
+   Development-Process
+   
 
 Call for contributors
 ---------------------
